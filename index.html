@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Leitner Studio</title>
+
+    <link
+        rel="icon"
+        href="Leitner.png"
+    >
+
+    <link
+        rel="stylesheet"
+        href="style.css"
+    >
+</head>
+
+<body>
+
+    <canvas
+        id="particlesCanvas"
+        aria-hidden="true"
+    ></canvas>
+
+
+    <header>
+        <div class="music-player">
+
+    <button
+        id="musicToggle"
+        class="music-btn"
+        type="button"
+        title="Reproducir música"
+    >
+        🔇
+    </button>
+
+    <div class="song-info">
+
+    <div class="song-label-row">
+
+        <span class="song-label">
+            Ahora suena
+        </span>
+
+        <button
+            id="nextMusicBtn"
+            class="next-music-btn"
+            type="button"
+            title="Cambiar canción"
+            aria-label="Cambiar canción aleatoriamente"
+        >
+            ⏭
+        </button>
+
+    </div>
+
+    <span
+        id="songName"
+        class="song-name"
+    >
+        Música desactivada
+    </span>
+
+</div>
+
+    <audio id="backgroundMusic"></audio>
+
+</div>
+        <h1>📚 Método Leitner</h1>
+
+        <button
+            class="theme-btn"
+            id="themeToggle"
+            type="button"
+            aria-label="Cambiar tema"
+        >
+            🌙
+        </button>
+    </header>
+
+    <main class="container">
+
+        <div class="grid">
+
+            <!-- ==========================
+                 PANEL DE TARJETAS
+            =========================== -->
+
+            <section class="panel cards-panel">
+
+                <h2>Nueva tarjeta</h2>
+
+                <input
+                    id="q"
+                    type="text"
+                    placeholder="❓ Pregunta"
+                    autocomplete="off"
+                >
+
+                <textarea
+                    id="a"
+                    placeholder="💡 Respuesta"
+                    rows="4"
+                ></textarea>
+
+                <button
+                    class="save-btn"
+                    type="button"
+                    onclick="addCard()"
+                >
+                    💾 Guardar
+                </button>
+
+                <button
+                    class="delete-all-btn"
+                    type="button"
+                    onclick="clearAll()"
+                >
+                    🗑 Eliminar todas
+                </button>
+
+                <button
+                    class="reset-btn"
+                    type="button"
+                    onclick="resetBoxes()"
+                >
+                    🔄 Reiniciar progreso
+                </button>
+
+                <hr>
+
+                <h2>Mis tarjetas</h2>
+
+                <div id="cards"></div>
+
+            </section>
+
+            <!-- ==========================
+                 PANEL DE ESTUDIO
+            =========================== -->
+
+            <section class="panel study-panel">
+
+    <!-- ==========================
+         CONTROLES DE ESTUDIO
+    =========================== -->
+
+    <div id="studyControls">
+
+        <h2>Estudiar</h2>
+
+        <select id="box">
+            <option value="1">Caja 1</option>
+            <option value="2">Caja 2</option>
+            <option value="3">Caja 3</option>
+            <option value="4">Caja 4</option>
+            <option value="5">Caja 5</option>
+        </select>
+
+        <button
+            id="startBtn"
+            class="start-btn"
+            type="button"
+            onclick="startStudy()"
+        >
+            🚀 Comenzar
+        </button>
+
+    </div>
+
+    <!-- ==========================
+         TARJETA DE ESTUDIO
+    =========================== -->
+
+    <div
+        id="study"
+        class="study-card"
+        style="display: none;"
+    >
+
+        <button
+            id="exitFocusBtn"
+            class="exit-focus-btn"
+            type="button"
+            onclick="exitFocusMode()"
+            title="Salir del modo enfoque"
+        >
+            ✕ Salir
+        </button>
+
+        <!-- Decoraciones -->
+
+        <span class="study-decoration study-book">
+            📖
+        </span>
+
+        <span class="study-decoration study-plant">
+            🌿
+        </span>
+
+        <!-- Encabezado interno -->
+
+        <div class="study-card-header">
+
+            <span
+                id="currentBoxBadge"
+                class="current-box-badge"
+            >
+                📦 Caja 1
+            </span>
+
+            <span class="question-label">
+               - ❔ -
+            </span>
+
+        </div>
+
+        <!-- Mensaje final -->
+
+        <p
+            id="finish"
+            class="finish-message"
+            style="display: none;"
+        >
+            🎉 ¡Has terminado todas las preguntas de esta caja!
+        </p>
+
+        <!-- Pregunta -->
+
+        <h3 id="question"></h3>
+
+        <!-- Separador -->
+
+        <div class="study-divider">
+
+            <span class="divider-line"></span>
+
+            <span class="divider-leaf">
+                🍃
+            </span>
+
+            <span class="divider-line"></span>
+
+        </div>
+
+        <!-- Respuesta -->
+
+        <div id="answer"></div>
+
+        <!-- Botones para responder -->
+
+        <div
+            id="studyButtons"
+            class="small study-buttons"
+        >
+
+            <button
+                id="showAnswerBtn"
+                class="show-answer-btn"
+                type="button"
+                onclick="showAnswer()"
+            >
+                👁 Mostrar respuesta
+            </button>
+
+            <button
+                id="correctBtn"
+                class="correct-btn"
+                type="button"
+                onclick="correct()"
+                style="display: none;"
+            >
+                ✅ Correcto
+            </button>
+
+            <button
+                id="wrongBtn"
+                class="wrong-btn"
+                type="button"
+                onclick="wrong()"
+                style="display: none;"
+            >
+                ❌ Incorrecto
+            </button>
+
+        </div>
+
+        <!-- Progreso -->
+
+        <div
+            id="studyProgress"
+            class="study-progress"
+        >
+
+            <div
+                id="progressDots"
+                class="progress-dots"
+            ></div>
+
+            <p id="studyProgressText">
+                1 de 1 tarjetas
+            </p>
+
+        </div>
+
+        <!-- Botones al terminar -->
+
+        <div
+            id="finishButtons"
+            class="finish-buttons"
+            style="display: none;"
+        >
+
+            <button
+                id="repeatBtn"
+                class="green-btn"
+                type="button"
+                onclick="repeatBox()"
+            >
+                🔄 Repetir caja
+            </button>
+
+            <button
+                type="button"
+                onclick="changeBox()"
+            >
+                📦 Cambiar caja
+            </button>
+
+            <button
+                class="green-btn"
+                type="button"
+                onclick="nextBox()"
+            >
+                ➡️ Siguiente caja
+            </button>
+
+        </div>
+
+    </div>
+
+    <!-- ==========================
+         ESTADÍSTICAS
+    =========================== -->
+
+    <hr>
+
+    <h2>Estadísticas</h2>
+
+    <div class="stats">
+        <div class="box" id="b1"></div>
+        <div class="box" id="b2"></div>
+        <div class="box" id="b3"></div>
+        <div class="box" id="b4"></div>
+        <div class="box" id="b5"></div>
+    </div>
+
+</section>
+
+        </div>
+
+    </main>
+
+    <!-- ==========================
+         MODAL DE CONFIRMACIÓN
+    =========================== -->
+
+    <div
+        id="confirmModal"
+        class="modal"
+    >
+
+        <div class="modal-content">
+
+            <div class="modal-icon">
+                ⚠️
+            </div>
+
+            <h2 id="modalTitle">
+                Confirmación
+            </h2>
+
+            <p id="modalMessage">
+                ¿Estás seguro?
+            </p>
+
+            <div class="modal-buttons">
+
+                <button
+                    id="cancelBtn"
+                    class="cancel-btn"
+                    type="button"
+                >
+                    ❌ Cancelar
+                </button>
+
+                <button
+                    id="confirmBtn"
+                    class="confirm-btn"
+                    type="button"
+                >
+                    ✅ Confirmar
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- ==========================
+         MODAL DE INFORMACIÓN
+    =========================== -->
+
+    <div
+        id="messageModal"
+        class="modal"
+    >
+
+        <div class="modal-content">
+
+            <div
+                class="modal-icon"
+                id="messageIcon"
+            >
+                ℹ️
+            </div>
+
+            <h2 id="messageTitle">
+                Información
+            </h2>
+
+            <p id="messageText">
+                Mensaje
+            </p>
+
+            <button
+                id="messageOkBtn"
+                class="confirm-btn message-ok-btn"
+                type="button"
+            >
+                👍 Aceptar
+            </button>
+
+        </div>
+
+    </div>
+
+    <script src="script.js"></script>
+
+</body>
+
+</html>
