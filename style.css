@@ -3269,18 +3269,7 @@ body.dark .exit-focus-btn:hover{
     }
 }
 
-/* Alinear Caja con el botón Salir */
 
-.study-card-header {
-    position: static;
-}
-
-.current-box-badge {
-    position: absolute;
-    top: 18px;
-    left: 18px;
-    margin: 0;
-}
 /* ==========================
    SIN TARJETAS
 ========================== */
@@ -3346,4 +3335,1178 @@ body.dark .empty-title{
 
 body.dark .empty-text{
     color:#cbd5e1;
+}
+/* ==========================
+   COLORES EXACTOS DE LOS BOTONES
+========================== */
+
+/* EDITAR */
+.card-actions button:first-child {
+    background: #212D40 !important;
+    color: #F8FAFC !important;
+
+    border: 1px solid #53696C !important;
+
+    box-shadow:
+        0 0 14px rgba(34, 220, 87, 0.28),
+        0 6px 18px rgba(34, 220, 87, 0.18) !important;
+}
+
+/* Verde del botón Editar */
+.card-actions button:first-child:hover {
+    background: #29384D !important;
+    border-color: #22DC57 !important;
+
+    box-shadow:
+        0 0 22px rgba(34, 220, 87, 0.45),
+        0 8px 22px rgba(34, 220, 87, 0.25) !important;
+}
+
+
+/* ELIMINAR */
+.card-actions button:last-child {
+    background: #212D40 !important;
+    color: #F8FAFC !important;
+
+    border: 1px solid #6D5068 !important;
+
+    box-shadow:
+        0 0 14px rgba(215, 118, 160, 0.28),
+        0 6px 18px rgba(215, 118, 160, 0.18) !important;
+}
+
+/* Rosado del botón Eliminar */
+.card-actions button:last-child:hover {
+    background: #29384D !important;
+    border-color: #D776A0 !important;
+
+    box-shadow:
+        0 0 22px rgba(215, 118, 160, 0.45),
+        0 8px 22px rgba(215, 118, 160, 0.25) !important;
+}
+
+.delete-icon {
+    color: #ff4d6d;
+    margin-right: 6px;
+}
+
+/* ==================================================
+   NUEVO DISEÑO MODO ESTUDIO
+================================================== */
+
+body.focus-mode #study.study-card {
+    position: relative;
+    overflow: hidden;
+
+    width: 100%;
+    min-height: calc(100vh - 60px);
+
+    padding: 38px 42px 55px;
+
+    display: flex !important;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    background:
+        radial-gradient(
+            circle at 10% 90%,
+            rgba(34, 197, 94, 0.10),
+            transparent 30%
+        ),
+        radial-gradient(
+            circle at 90% 90%,
+            rgba(236, 72, 153, 0.10),
+            transparent 30%
+        ),
+        radial-gradient(
+            circle at 50% 45%,
+            rgba(99, 102, 241, 0.07),
+            transparent 38%
+        ),
+        linear-gradient(
+            145deg,
+            #071426,
+            #0b1629 50%,
+            #10152e
+        );
+
+    border: 2px solid transparent;
+    border-radius: 32px;
+
+    background-clip: padding-box;
+
+    box-shadow:
+        0 30px 70px rgba(0, 0, 0, 0.50),
+        0 0 30px rgba(99, 102, 241, 0.08);
+
+    color: white;
+}
+
+
+/* ==========================
+   BORDE VERDE → MORADO → ROSA
+========================== */
+
+body.focus-mode #study.study-card::before {
+    content: "";
+
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+
+    padding: 2px;
+
+    border-radius: 32px;
+
+    background:
+        linear-gradient(
+            110deg,
+            #22c55e,
+            #38bdf8 38%,
+            #8b5cf6 72%,
+            #f472b6
+        );
+
+    -webkit-mask:
+        linear-gradient(#fff 0 0) content-box,
+        linear-gradient(#fff 0 0);
+
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+
+    pointer-events: none;
+
+    filter:
+        drop-shadow(0 0 8px rgba(34, 197, 94, 0.25))
+        drop-shadow(0 0 8px rgba(244, 114, 182, 0.20));
+}
+
+
+/* Desactivamos el brillo viejo que cruzaba la tarjeta */
+
+body.focus-mode #study.study-card::after {
+    display: none;
+}
+
+
+/* Todo queda por encima de las decoraciones */
+
+body.focus-mode #study > * {
+    z-index: 2;
+}
+
+
+/* ==========================
+   ENCABEZADO
+========================== */
+
+body.focus-mode .study-card-header {
+    position: absolute;
+
+    top: 32px;
+    left: 32px;
+    right: 32px;
+
+    width: auto;
+
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+
+    margin: 0;
+}
+
+
+/* ==========================
+   CAJA 1
+========================== */
+
+body.focus-mode .current-box-badge {
+    padding: 12px 20px;
+
+    background:
+        rgba(34, 197, 94, 0.10);
+
+    border:
+        1px solid rgba(34, 197, 94, 0.85);
+
+    border-radius: 999px;
+
+    color: #4ade80;
+
+    font-size: 17px;
+    font-weight: 900;
+
+    box-shadow:
+        0 0 18px rgba(34, 197, 94, 0.20),
+        inset 0 0 10px rgba(34, 197, 94, 0.04);
+}
+
+
+/* Quitamos el texto "Pregunta" viejo */
+
+body.focus-mode .question-label {
+    display: none;
+}
+
+
+/* ==========================
+   BOTÓN SALIR
+========================== */
+
+body.focus-mode .exit-focus-btn {
+    position: absolute;
+
+    top: 32px;
+    right: 32px;
+    z-index: 20;
+
+    width: auto;
+    min-width: 120px;
+
+    padding: 12px 22px;
+    margin: 0;
+
+    border:
+        1px solid rgba(244, 114, 182, 0.70);
+
+    border-radius: 999px;
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(236, 72, 153, 0.13),
+            rgba(244, 63, 94, 0.08)
+        );
+
+    color: #fda4af;
+
+    font-size: 15px;
+    font-weight: 900;
+
+    box-shadow:
+        0 0 18px rgba(244, 63, 94, 0.20);
+
+    backdrop-filter: blur(10px);
+}
+
+body.focus-mode .exit-focus-btn:hover {
+    background:
+        rgba(244, 63, 94, 0.18);
+
+    border-color: #fb7185;
+
+    color: #fecdd3;
+
+    box-shadow:
+        0 0 26px rgba(244, 63, 94, 0.38);
+
+    transform: translateY(-2px);
+}
+
+
+/* ==========================
+   CÍRCULO ?
+========================== */
+
+body.focus-mode .question-icon {
+    width: 86px;
+    height: 86px;
+
+    margin: 25px auto 42px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    border:
+        2px solid rgba(168, 85, 247, 0.55);
+
+    border-radius: 50%;
+
+    background:
+        radial-gradient(
+            circle,
+            rgba(168, 85, 247, 0.18),
+            rgba(15, 23, 42, 0.35)
+        );
+
+    color: #e9d5ff;
+
+    font-size: 44px;
+    font-weight: 900;
+
+    text-shadow:
+        0 0 12px rgba(216, 180, 254, 0.60);
+
+    box-shadow:
+        0 0 22px rgba(168, 85, 247, 0.20);
+}
+
+
+/* ==========================
+   PREGUNTA PRINCIPAL
+========================== */
+
+body.focus-mode .study-card #question {
+    max-width: 850px;
+
+    margin:
+        0 auto
+        22px;
+
+    color: #f8fafc;
+
+    font-size:
+        clamp(
+            42px,
+            6vw,
+            72px
+        );
+
+    font-weight: 900;
+
+    line-height: 1.1;
+
+    text-align: center;
+
+    letter-spacing: -1px;
+
+    text-shadow:
+        0 5px 18px rgba(0, 0, 0, 0.28);
+}
+
+
+/* ==========================
+   HOJITA CENTRAL
+========================== */
+
+body.focus-mode .study-divider {
+    margin:
+        0 auto
+        35px;
+
+    height: 38px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+body.focus-mode .study-divider .divider-line {
+    display: none;
+}
+
+body.focus-mode .divider-leaf {
+    font-size: 30px;
+
+    filter:
+        drop-shadow(
+            0 0 10px rgba(74, 222, 128, 0.75)
+        );
+}
+
+
+/* ==========================
+   MOSTRAR RESPUESTA
+========================== */
+
+body.focus-mode .study-card .show-answer-btn {
+    width: auto;
+    min-width: 390px;
+
+    min-height: 76px;
+
+    margin: 0 auto;
+
+    padding: 18px 38px;
+
+    border:
+        1px solid rgba(253, 224, 71, 0.85);
+
+    border-radius: 18px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #ff8a00,
+            #f59e0b 45%,
+            #facc15
+        );
+
+    color: white;
+
+    font-size: 22px;
+    font-weight: 900;
+
+    box-shadow:
+        0 12px 30px rgba(245, 158, 11, 0.32),
+        0 0 25px rgba(250, 204, 21, 0.18),
+        inset 0 1px 0 rgba(255, 255, 255, 0.25);
+}
+
+body.focus-mode .study-card .show-answer-btn:hover {
+    background:
+        linear-gradient(
+            135deg,
+            #fb923c,
+            #fbbf24,
+            #fde047
+        );
+
+    transform:
+        translateY(-4px)
+        scale(1.015);
+
+    box-shadow:
+        0 18px 38px rgba(245, 158, 11, 0.42),
+        0 0 32px rgba(250, 204, 21, 0.22);
+}
+
+
+/* ==========================
+   PROGRESO
+========================== */
+
+body.focus-mode .study-progress {
+    margin-top: 38px;
+}
+
+body.focus-mode .progress-dots {
+    gap: 13px;
+
+    margin-bottom: 13px;
+}
+
+body.focus-mode .progress-dot {
+    width: 20px;
+    height: 20px;
+
+    background:
+        #1e3352;
+
+    border:
+        1px solid rgba(148, 163, 184, 0.22);
+
+    box-shadow:
+        inset 0 2px 5px rgba(0, 0, 0, 0.25);
+}
+
+body.focus-mode .progress-dot.current {
+    background:
+        #22c55e;
+
+    border-color:
+        #4ade80;
+
+    transform:
+        scale(1.15);
+
+    box-shadow:
+        0 0 18px rgba(34, 197, 94, 0.75);
+}
+
+body.focus-mode .progress-dot.completed {
+    background:
+        #22c55e;
+
+    border-color:
+        #4ade80;
+
+    box-shadow:
+        0 0 12px rgba(34, 197, 94, 0.48);
+}
+
+body.focus-mode .study-progress p {
+    color: #dbe4f3;
+
+    font-size: 18px;
+    font-weight: 900;
+
+    text-shadow:
+        0 2px 8px rgba(0, 0, 0, 0.30);
+}
+
+
+/* ==========================
+   RESPUESTA
+========================== */
+
+body.focus-mode .study-card #answer {
+    width: 100%;
+    max-width: 720px;
+
+    margin:
+        10px auto
+        25px;
+
+    padding: 22px 28px;
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(var(--study-rgb), 0.15),
+            rgba(15, 23, 42, 0.80)
+        );
+
+    border:
+        1px solid rgba(var(--study-rgb), 0.45);
+
+    border-left:
+        5px solid rgb(var(--study-rgb));
+
+    border-radius: 18px;
+
+    color: #f8fafc;
+
+    font-size: 20px;
+
+    text-align: center;
+
+    box-shadow:
+        0 12px 30px rgba(0, 0, 0, 0.22);
+}
+
+
+/* ==========================
+   CORRECTO / INCORRECTO
+========================== */
+
+body.focus-mode .study-card .correct-btn,
+body.focus-mode .study-card .wrong-btn {
+    min-height: 65px;
+
+    border-radius: 16px;
+
+    font-size: 18px;
+    font-weight: 900;
+}
+
+body.focus-mode .study-card .correct-btn {
+    background:
+        linear-gradient(
+            135deg,
+            #16a34a,
+            #22c55e
+        );
+}
+
+body.focus-mode .study-card .wrong-btn {
+    background:
+        linear-gradient(
+            135deg,
+            #dc2626,
+            #f43f5e
+        );
+}
+
+
+/* ==========================
+   PLANTAS DECORATIVAS
+========================== */
+
+body.focus-mode .plant-left,
+body.focus-mode .plant-right {
+    position: absolute;
+
+    z-index: 1;
+
+    font-size: 150px;
+
+    opacity: 0.17;
+
+    pointer-events: none;
+
+    filter:
+        saturate(1.4)
+        drop-shadow(
+            0 0 20px rgba(34, 197, 94, 0.15)
+        );
+}
+
+body.focus-mode .plant-left {
+    bottom: -25px;
+    left: -20px;
+
+    color: #22c55e;
+
+    transform:
+        rotate(-15deg)
+        scale(1.15);
+}
+
+body.focus-mode .plant-right {
+    right: -15px;
+    bottom: -25px;
+
+    color: #ec4899;
+
+    transform:
+        scaleX(-1)
+        rotate(-15deg)
+        scale(1.15);
+
+    filter:
+        hue-rotate(250deg)
+        saturate(1.5)
+        drop-shadow(
+            0 0 20px rgba(236, 72, 153, 0.15)
+        );
+}
+
+
+/* ==========================
+   CELULAR
+========================== */
+
+@media (max-width: 600px) {
+
+    body.focus-mode #study.study-card {
+        min-height: calc(100vh - 24px);
+
+        padding:
+            105px
+            18px
+            45px;
+
+        border-radius: 24px;
+    }
+
+    body.focus-mode .study-card-header {
+        top: 20px;
+        left: 18px;
+        right: 18px;
+    }
+
+    body.focus-mode .current-box-badge {
+        padding:
+            8px
+            13px;
+
+        font-size: 13px;
+    }
+
+    body.focus-mode .exit-focus-btn {
+        top: 20px;
+        right: 18px;
+
+        min-width: auto;
+
+        padding:
+            8px
+            13px;
+
+        font-size: 12px;
+    }
+
+    body.focus-mode .question-icon {
+        width: 65px;
+        height: 65px;
+
+        margin-bottom: 28px;
+
+        font-size: 34px;
+    }
+
+    body.focus-mode .study-card #question {
+        font-size:
+            clamp(
+                34px,
+                12vw,
+                52px
+            );
+    }
+
+    body.focus-mode .study-card .show-answer-btn {
+        width: 100%;
+        min-width: 0;
+
+        min-height: 64px;
+
+        padding:
+            15px
+            20px;
+
+        font-size: 18px;
+    }
+
+    body.focus-mode .progress-dot {
+        width: 15px;
+        height: 15px;
+    }
+
+    body.focus-mode .study-progress p {
+        font-size: 15px;
+    }
+
+    body.focus-mode .plant-left,
+    body.focus-mode .plant-right {
+        font-size: 90px;
+
+        opacity: 0.10;
+    }
+
+} /* ← ESTA LLAVE TE FALTABA */
+
+
+/* ==================================================
+   CORRECCIÓN FINAL DEL NUEVO MODO ESTUDIO
+================================================== */
+
+/* Caja arriba izquierda */
+
+body.focus-mode .study-card-header {
+    position: absolute !important;
+
+    top: 32px;
+    left: 32px;
+    right: 32px;
+
+    width: auto;
+    margin: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+
+    z-index: 10;
+}
+
+body.focus-mode .current-box-badge {
+    position: static !important;
+
+    margin: 0;
+
+    padding: 12px 20px;
+
+    background: rgba(34, 197, 94, 0.10);
+
+    border: 1px solid rgba(34, 197, 94, 0.85);
+    border-radius: 999px;
+
+    color: #4ade80;
+
+    font-size: 17px;
+    font-weight: 900;
+
+    box-shadow:
+        0 0 18px rgba(34, 197, 94, 0.20),
+        inset 0 0 10px rgba(34, 197, 94, 0.04);
+}
+
+
+/* Salir arriba derecha */
+body.focus-mode .exit-focus-btn {
+    position: absolute !important;
+
+    top: 32px !important;
+    right: 32px !important;
+
+    width: auto !important;
+    min-width: 120px;
+
+    margin: 0 !important;
+    padding: 12px 22px;
+
+    border: 1px solid rgba(244, 114, 182, 0.70) !important;
+    border-radius: 999px;
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(236, 72, 153, 0.18),
+            rgba(244, 63, 94, 0.10)
+        ) !important;
+
+    color: #fda4af !important;
+
+    font-size: 15px;
+    font-weight: 900;
+
+    box-shadow:
+        0 0 18px rgba(244, 63, 94, 0.25) !important;
+
+    z-index: 20;
+}
+
+body.focus-mode .exit-focus-btn:hover {
+    background:
+        rgba(244, 63, 94, 0.22) !important;
+
+    border-color: #fb7185 !important;
+
+    color: #fecdd3 !important;
+
+    box-shadow:
+        0 0 28px rgba(244, 63, 94, 0.42) !important;
+
+    transform: translateY(-2px);
+}
+
+
+/* Círculo de pregunta */
+body.focus-mode .question-icon {
+    position: relative;
+
+    width: 86px;
+    height: 86px;
+
+    flex-shrink: 0;
+
+    margin: 15px auto 35px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border: 2px solid rgba(168, 85, 247, 0.55);
+    border-radius: 50%;
+
+    background:
+        radial-gradient(
+            circle,
+            rgba(168, 85, 247, 0.20),
+            rgba(15, 23, 42, 0.45)
+        );
+
+    color: #e9d5ff;
+
+    font-size: 44px;
+    font-weight: 900;
+
+    text-shadow:
+        0 0 12px rgba(216, 180, 254, 0.70);
+
+    box-shadow:
+        0 0 25px rgba(168, 85, 247, 0.25);
+
+    z-index: 3;
+}
+
+
+/* Pregunta */
+body.focus-mode #question {
+    position: relative;
+
+    margin: 0 auto 20px;
+
+    font-size: clamp(42px, 6vw, 72px);
+    font-weight: 900;
+
+    color: #f8fafc;
+
+    text-align: center;
+
+    z-index: 3;
+}
+
+
+/* Hoja */
+body.focus-mode .study-divider {
+    position: relative;
+
+    width: 100%;
+    height: 40px;
+
+    margin: 0 auto 30px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    z-index: 3;
+}
+
+body.focus-mode .study-divider .divider-line {
+    display: none;
+}
+
+body.focus-mode .divider-leaf {
+    font-size: 30px;
+
+    filter:
+        drop-shadow(0 0 10px rgba(74, 222, 128, 0.8));
+}
+
+
+/* Botón mostrar respuesta */
+body.focus-mode #showAnswerBtn {
+    min-width: 390px;
+    min-height: 76px;
+
+    padding: 18px 38px;
+
+    border: 1px solid #fde047 !important;
+    border-radius: 18px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #ff8a00,
+            #f59e0b 45%,
+            #facc15
+        ) !important;
+
+    color: white !important;
+
+    font-size: 22px;
+    font-weight: 900;
+
+    box-shadow:
+        0 12px 30px rgba(245, 158, 11, 0.35),
+        0 0 25px rgba(250, 204, 21, 0.20) !important;
+}
+
+
+/* Progreso */
+body.focus-mode .study-progress {
+    position: relative;
+
+    margin-top: 35px;
+
+    text-align: center;
+
+    z-index: 3;
+}
+
+body.focus-mode .progress-dot {
+    width: 20px;
+    height: 20px;
+
+    background: #1e3352;
+
+    border: 1px solid rgba(148, 163, 184, 0.25);
+}
+
+body.focus-mode .progress-dot.current,
+body.focus-mode .progress-dot.completed {
+    background: #22c55e !important;
+
+    border-color: #4ade80 !important;
+
+    box-shadow:
+        0 0 18px rgba(34, 197, 94, 0.70) !important;
+}
+
+body.focus-mode #studyProgressText {
+    margin-top: 12px;
+
+    color: #dbe4f3;
+
+    font-size: 18px;
+    font-weight: 900;
+}
+/* ==========================
+   ARREGLAR BOTÓN SALIR
+========================== */
+
+body.focus-mode .exit-focus-btn {
+    position: absolute !important;
+    top: 32px !important;
+    right: 32px !important;
+
+    z-index: 9999 !important;
+
+    pointer-events: auto !important;
+
+    cursor: pointer !important;
+}
+
+/* Evita que decoraciones o capas tapen el botón */
+body.focus-mode .study-decoration,
+body.focus-mode .question-icon,
+body.focus-mode #study::before,
+body.focus-mode #study::after {
+    pointer-events: none !important;
+}
+
+/* TÍTULOS PRINCIPALES MÁS BONITOS */
+
+.cards-panel h2,
+.study-panel h2 {
+    font-family: "Poppins", sans-serif;
+    font-weight: 800;
+
+    letter-spacing: 0.3px;
+
+    color: #a5b4fc;
+
+    text-shadow:
+        0 0 8px rgba(129, 140, 248, 0.35),
+        0 0 18px rgba(96, 165, 250, 0.18);
+}
+
+/* ==========================================
+   BOTONES FINALES - MÁS VIDA
+========================================== */
+
+.finish-buttons {
+    width: 100%;
+    max-width: 720px;
+
+    margin: 28px auto 0;
+
+    display: flex;
+    flex-direction: column;
+
+    gap: 14px;
+}
+
+
+/* ESTILO BASE */
+
+.finish-buttons button {
+    min-height: 60px;
+
+    border-radius: 16px;
+
+    font-size: 17px;
+    font-weight: 900;
+
+    letter-spacing: 0.2px;
+
+    transition:
+        transform 0.25s ease,
+        box-shadow 0.25s ease,
+        filter 0.25s ease;
+}
+
+
+/* ==========================
+   REPETIR CAJA
+========================== */
+
+#repeatBtn {
+    background:
+        linear-gradient(
+            135deg,
+            #16a34a,
+            #22c55e,
+            #4ade80
+        ) !important;
+
+    color: white !important;
+
+    border:
+        1px solid rgba(134, 239, 172, 0.55);
+
+    box-shadow:
+        0 10px 25px rgba(34, 197, 94, 0.28),
+        0 0 18px rgba(34, 197, 94, 0.12);
+}
+
+#repeatBtn:hover {
+    transform:
+        translateY(-3px)
+        scale(1.015);
+
+    filter: brightness(1.08);
+
+    box-shadow:
+        0 16px 32px rgba(34, 197, 94, 0.40),
+        0 0 28px rgba(74, 222, 128, 0.22);
+}
+
+
+/* ==========================
+   CAMBIAR CAJA
+========================== */
+
+.finish-buttons button:nth-child(2) {
+    background:
+        linear-gradient(
+            135deg,
+            #334155,
+            #475569,
+            #53657c
+        ) !important;
+
+    color: #f8fafc !important;
+
+    border:
+        1px solid rgba(148, 163, 184, 0.35);
+
+    box-shadow:
+        0 10px 24px rgba(15, 23, 42, 0.28),
+        0 0 16px rgba(96, 165, 250, 0.08);
+}
+
+.finish-buttons button:nth-child(2):hover {
+    transform:
+        translateY(-3px)
+        scale(1.015);
+
+    background:
+        linear-gradient(
+            135deg,
+            #3b4b61,
+            #52647c,
+            #64748b
+        ) !important;
+
+    border-color:
+        rgba(96, 165, 250, 0.55);
+
+    box-shadow:
+        0 16px 32px rgba(15, 23, 42, 0.35),
+        0 0 24px rgba(96, 165, 250, 0.18);
+}
+
+
+/* ==========================
+   SIGUIENTE CAJA
+========================== */
+
+.finish-buttons button:nth-child(3) {
+    background:
+        linear-gradient(
+            135deg,
+            #2563eb,
+            #4f46e5,
+            #7c3aed
+        ) !important;
+
+    color: white !important;
+
+    border:
+        1px solid rgba(129, 140, 248, 0.55);
+
+    box-shadow:
+        0 10px 25px rgba(79, 70, 229, 0.30),
+        0 0 18px rgba(124, 58, 237, 0.12);
+}
+
+.finish-buttons button:nth-child(3):hover {
+    transform:
+        translateY(-3px)
+        scale(1.015);
+
+    filter: brightness(1.08);
+
+    box-shadow:
+        0 16px 32px rgba(79, 70, 229, 0.42),
+        0 0 28px rgba(124, 58, 237, 0.24);
+}
+
+
+/* AL PRESIONAR */
+
+.finish-buttons button:active {
+    transform: scale(0.97);
+}
+
+
+/* CELULAR */
+
+@media (max-width: 600px) {
+
+    .finish-buttons {
+        gap: 11px;
+    }
+
+    .finish-buttons button {
+        min-height: 54px;
+        font-size: 15px;
+    }
 }
