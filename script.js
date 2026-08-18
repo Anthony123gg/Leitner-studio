@@ -137,11 +137,12 @@ function render() {
                 </button>
 
                 <button
-                    type="button"
-                    onclick="deleteCard(${index})"
-                >
-                    🗑 Eliminar
-                </button>
+    type="button"
+    onclick="deleteCard(${index})"
+>
+    <span class="delete-icon">🗑</span>
+    Eliminar
+</button>
 
             </div>
         `;
