@@ -1106,52 +1106,128 @@ function showMessage(
 ) {
 
     const icon =
-        document.getElementById(
-            "messageIcon"
-        );
+        document.getElementById("messageIcon");
 
     icon.className = "modal-icon";
 
     switch (type) {
 
         case "success":
-
             icon.textContent = "✅";
             icon.classList.add("success");
-
             break;
 
         case "warning":
-
             icon.textContent = "⚠️";
             icon.classList.add("warning");
-
             break;
 
         case "error":
-
             icon.textContent = "❌";
             icon.classList.add("error");
-
             break;
 
         default:
-
             icon.textContent = "ℹ️";
             icon.classList.add("info");
     }
 
     document.getElementById(
-        "messageTitle"
-    ).textContent = title;
+    "messageTitle"
+).textContent = title;
 
-    document.getElementById(
-        "messageText"
-    ).textContent = message;
+const messageText =
+    document.getElementById("messageText");
+
+messageText.textContent = message;
+
+
+// Ocultar el texto original cuando sea
+// un mensaje de mazo compartido
+
+if (title.includes("Mazo compartido")) {
+    messageText.style.display = "none";
+} else {
+    messageText.style.display = "block";
+}
+
+
+    /* =================================
+       CÓDIGO DE COMPARTIR
+    ================================= */
+
+    const shareContainer =
+        document.getElementById(
+            "shareCodeContainer"
+        );
+
+    const shareDisplay =
+        document.getElementById(
+            "shareCodeDisplay"
+        );
+
+
+    // Ocultarlo por defecto
+
+    shareContainer.style.display = "none";
+
+
+    // Si es el mensaje de compartir
+
+    if (
+        title.includes("Mazo compartido")
+    ) {
+
+        const code =
+            message
+                .split("\n")
+                .pop()
+                .trim();
+
+
+        shareDisplay.textContent = code;
+
+        shareContainer.style.display =
+            "flex";
+    }
+
 
     document.getElementById(
         "messageModal"
     ).classList.add("show");
+}
+async function copyShareCode() {
+
+    const code =
+        document.getElementById(
+            "shareCodeDisplay"
+        ).textContent;
+
+    try {
+
+        await navigator.clipboard.writeText(code);
+
+        const button =
+            document.getElementById(
+                "copyShareCodeBtn"
+            );
+
+        button.textContent = "✅ Copiado";
+
+        setTimeout(() => {
+
+            button.textContent = "📋 Copiar";
+
+        }, 1800);
+
+    } catch (error) {
+
+        console.error(
+            "No se pudo copiar:",
+            error
+        );
+
+    }
 }
 
 
@@ -1160,30 +1236,16 @@ function closeMessage() {
     document.getElementById(
         "messageModal"
     ).classList.remove("show");
+
+    document.getElementById(
+        "shareCodeContainer"
+    ).style.display = "none";
 }
-
-
 document.getElementById(
     "messageOkBtn"
 ).addEventListener(
     "click",
     closeMessage
-);
-
-
-document.getElementById(
-    "messageModal"
-).addEventListener(
-    "click",
-    event => {
-
-        if (
-            event.target.id ===
-            "messageModal"
-        ) {
-            closeMessage();
-        }
-    }
 );
 
 
@@ -2226,4 +2288,261 @@ function animateCardList() {
                 `${index * 0.08}s`;
         }
     );
+}
+/* ==========================
+   COMPARTIR MAZO CON SUPABASE
+========================== */
+
+async function shareDeck() {
+
+    if (cards.length === 0) {
+
+        showMessage(
+            "📭 Sin tarjetas",
+            "Primero crea algunas tarjetas para poder compartir el mazo.",
+            "warning"
+        );
+
+        return;
+    }
+
+    // Crear código aleatorio de 6 caracteres
+    const shareCode =
+        Math.random()
+            .toString(36)
+            .substring(2, 8)
+            .toUpperCase();
+
+    try {
+
+        const { data, error } =
+            await supabaseClient
+                .from("shared_decks")
+                .insert([
+                    {
+                        share_code: shareCode,
+                        title: "Mi mazo de Leitner",
+                        cards: cards
+                    }
+                ])
+                .select();
+
+        if (error) {
+            throw error;
+        }
+
+        console.log(
+            "Mazo compartido:",
+            data
+        );
+
+        showMessage(
+            "🔗 ¡Mazo compartido!",
+            `Tu código para compartir es:\n\n${shareCode}`,
+            "success"
+        );
+
+    } catch (error) {
+
+        console.error(
+            "Error al compartir:",
+            error
+        );
+
+        showMessage(
+            "❌ Error",
+            "No se pudo compartir el mazo. Revisa la conexión con Supabase.",
+            "error"
+        );
+    }
+}
+
+/* ==========================
+   IMPORTAR MAZO CON SUPABASE
+========================== */
+
+/* ==========================
+   IMPORTAR MAZO CON SUPABASE
+========================== */
+
+async function importDeck() {
+
+    const input =
+        document.getElementById("shareCodeInput");
+
+    const shareCode =
+        input.value.trim().toUpperCase();
+
+    if (!shareCode) {
+
+        showMessage(
+            "🔑 Código vacío",
+            "Escribe el código del mazo que quieres importar.",
+            "warning"
+        );
+
+        return;
+    }
+
+    try {
+
+        const { data, error } =
+            await supabaseClient
+                .from("shared_decks")
+                .select("*")
+                .eq("share_code", shareCode)
+                .single();
+
+        if (error) {
+            throw error;
+        }
+
+        if (!data) {
+
+            showMessage(
+                "❌ Mazo no encontrado",
+                "No existe ningún mazo con ese código.",
+                "warning"
+            );
+
+            return;
+        }
+
+        /* ==========================
+           CONFIRMAR REEMPLAZO
+        ========================== */
+
+        showConfirm(
+            "📥 Importar mazo",
+            `El mazo "${data.title}" contiene ${data.cards.length} tarjetas.\n\nLas tarjetas que tienes actualmente serán reemplazadas. ¿Deseas continuar?`,
+            () => {
+
+                // Reemplazar completamente las tarjetas
+                cards = data.cards.map(card => ({
+                    q: card.q,
+                    a: card.a,
+                    box: 1
+                }));
+
+                // Guardar el nuevo mazo
+                save();
+
+                // Reiniciar estudio
+                studyList = [];
+                current = -1;
+
+                study.style.display = "none";
+
+                input.value = "";
+
+                showMessage(
+    "🔗 ¡Mazo compartido!",
+    "Tu código para compartir es:\n\n" + data.share_code,
+    "success"
+);
+            }
+        );
+
+    } catch (error) {
+
+        console.error(
+            "Error al importar el mazo:",
+            error
+        );
+
+        showMessage(
+            "❌ Error",
+            "No se pudo encontrar el mazo. Comprueba que el código sea correcto.",
+            "error"
+        );
+    }
+}
+
+// =========================================
+// MOSTRAR IMPORTAR MAZO AL ESCRIBIR CÓDIGO
+// =========================================
+
+const shareCodeInput =
+    document.getElementById("shareCodeInput");
+
+const importDeckBtn =
+    document.getElementById("importDeckBtn");
+
+shareCodeInput.addEventListener(
+    "input",
+    () => {
+
+        if (shareCodeInput.value.trim().length > 0) {
+
+            importDeckBtn.style.display = "block";
+
+        } else {
+
+            importDeckBtn.style.display = "none";
+
+        }
+
+    }
+);
+
+// =========================================
+// MOSTRAR CÓDIGO PARA COMPARTIR
+// =========================================
+
+function showShareSuccess(code) {
+
+    const container =
+        document.getElementById("shareCodeContainer");
+
+    const codeDisplay =
+        document.getElementById("shareCodeDisplay");
+
+    codeDisplay.textContent = code;
+
+    container.style.display = "flex";
+
+    showShareSuccess(data.share_code);
+
+    // Volvemos a mostrarlo porque showMessage
+    // se ejecuta después
+    container.style.display = "flex";
+}
+
+
+// =========================================
+// COPIAR CÓDIGO
+// =========================================
+
+async function copyShareCode() {
+
+    const code =
+        document.getElementById(
+            "shareCodeDisplay"
+        ).textContent;
+
+    try {
+
+        await navigator.clipboard.writeText(code);
+
+        const button =
+            document.getElementById(
+                "copyShareCodeBtn"
+            );
+
+        button.textContent = "✅ Copiado";
+
+        setTimeout(() => {
+
+            button.textContent = "📋 Copiar";
+
+        }, 1800);
+
+    } catch (error) {
+
+        showMessage(
+            "❌ Error",
+            "No se pudo copiar el código.",
+            "error"
+        );
+    }
 }
