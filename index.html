@@ -146,6 +146,8 @@ content="summary_large_image">
                     💾 Guardar
                 </button>
 
+                
+
                 <button
                     class="delete-all-btn"
                     type="button"
@@ -162,9 +164,18 @@ content="summary_large_image">
                     🔄 Reiniciar progreso
                 </button>
 
+                <button
+    class="share-btn"
+    type="button"
+    onclick="shareDeck()"
+>
+    🔗 Compartir mazo
+</button>
+
                 <hr>
 
                 <h2>Mis tarjetas</h2>
+                
 
                 <div id="cards"></div>
 
@@ -393,10 +404,30 @@ content="summary_large_image">
         <div class="box" id="b4"></div>
         <div class="box" id="b5"></div>
     </div>
+<div class="import-deck">
+    
+    <input
+        id="shareCodeInput"
+        type="text"
+        placeholder="🔑 Código del mazo"
+        maxlength="6"
+        autocomplete="off"
+    >
 
+    <button
+    id="importDeckBtn"
+    type="button"
+    onclick="importDeck()"
+    style="display: none;"
+>
+    📥 Importar mazo
+</button>
+
+</div>
 </section>
 
         </div>
+        
 
     </main>
 
@@ -472,22 +503,38 @@ content="summary_large_image">
             <p id="messageText">
                 Mensaje
             </p>
+            <div id="shareCodeContainer" class="share-code-container">
+
+    <span id="shareCodeDisplay"></span>
+
+    <button
+        id="copyShareCodeBtn"
+        type="button"
+        onclick="copyShareCode()"
+    >
+        📋 Copiar
+    </button>
+
+</div>
 
             <button
-                id="messageOkBtn"
-                class="confirm-btn message-ok-btn"
-                type="button"
-            >
-                👍 Aceptar
-            </button>
+    id="messageOkBtn"
+    class="confirm-btn message-ok-btn"
+    type="button"
+>
+    👍 Aceptar
+</button>
 
         </div>
 
     </div>
  
 
+        <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="supabase.js"></script>
     <script src="script.js"></script>
 
 </body>
+</html>
 
 </html>
