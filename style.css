@@ -4510,3 +4510,360 @@ body.focus-mode #study::after {
         font-size: 15px;
     }
 }
+
+/* =========================================
+   COMPARTIR MAZO — MORADO
+========================================= */
+
+button.share-btn {
+    width: 100% !important;
+    height: 64px !important;
+
+    margin-top: 10px !important;
+    padding: 14px 20px !important;
+
+    box-sizing: border-box !important;
+
+    border: 2px solid #8b5cf6 !important;
+    border-radius: 15px !important;
+
+    background: linear-gradient(
+        135deg,
+        rgba(124, 58, 237, 0.28),
+        rgba(139, 92, 246, 0.12)
+    ) !important;
+
+    color: #c4b5fd !important;
+
+    font-family: inherit !important;
+    font-size: 18px !important;
+    font-weight: 800 !important;
+
+    cursor: pointer !important;
+
+    box-shadow:
+        0 0 12px rgba(139, 92, 246, 0.30),
+        0 0 25px rgba(139, 92, 246, 0.12) !important;
+
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.25s ease,
+        background 0.25s ease,
+        border-color 0.25s ease !important;
+}
+
+
+/* =========================================
+   EFECTO AL PASAR EL MOUSE
+========================================= */
+
+button.share-btn:hover {
+
+    transform: translateY(-2px) !important;
+
+    border-color: #a78bfa !important;
+
+    background: linear-gradient(
+        135deg,
+        rgba(124, 58, 237, 0.42),
+        rgba(139, 92, 246, 0.22)
+    ) !important;
+
+    color: #ede9fe !important;
+
+    box-shadow:
+        0 0 18px rgba(139, 92, 246, 0.55),
+        0 0 35px rgba(139, 92, 246, 0.22),
+        0 8px 25px rgba(124, 58, 237, 0.18) !important;
+}
+
+
+/* =========================================
+   AL HACER CLICK
+========================================= */
+
+button.share-btn:active {
+
+    transform: scale(0.98) !important;
+
+    box-shadow:
+        0 0 12px rgba(139, 92, 246, 0.45) !important;
+}
+
+/* =================================
+   ESTILO IMPORTAR MAZO
+================================= */
+
+/* =================================
+   IMPORTAR MAZO
+================================= */
+
+.import-deck {
+    margin-top: 20px;
+}
+
+/* Código del mazo */
+
+.import-deck input {
+ 
+
+    width: 100%;
+    box-sizing: border-box;
+
+    background: rgba(70, 82, 105, 0.75);
+    border: 2px solid rgba(167, 139, 250, 0.55);
+    border-radius: 18px;
+
+    padding: 18px 22px;
+
+    color: #ffffff;
+    font-size: 18px;
+    font-weight: 500;
+
+    outline: none;
+
+    transition:
+        border-color 0.25s ease,
+        box-shadow 0.25s ease,
+        background 0.25s ease;
+}
+
+/* Placeholder */
+
+.import-deck input::placeholder {
+    font-family: "Poppins", sans-serif;
+    font-size: 18px;
+    font-weight: 600;
+    color: #d8d4ff;
+    letter-spacing: 0.4px;
+
+    
+
+    color: #d5d9e3;
+}
+
+/* Cuando escribes */
+
+.import-deck input:focus {
+    border-color: #a855f7;
+
+    background: rgba(55, 65, 90, 0.9);
+
+    box-shadow:
+        0 0 10px rgba(168, 85, 247, 0.45),
+        0 0 25px rgba(139, 92, 246, 0.25);
+}
+
+/* =================================
+   BOTÓN IMPORTAR
+================================= */
+
+#importDeckBtn {
+    width: 100%;
+    box-sizing: border-box;
+
+    margin-top: 14px;
+
+    padding: 18px 22px;
+
+    border: 2px solid rgba(167, 139, 250, 0.65);
+    border-radius: 18px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #8b5cf6,
+            #4f46e5
+        );
+
+    color: #ffffff;
+
+    font-size: 19px;
+    font-weight: 700;
+
+    cursor: pointer;
+
+    box-shadow:
+        0 6px 18px rgba(79, 70, 229, 0.25);
+
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease,
+        border-color 0.2s ease;
+}
+
+/* Hover */
+
+#importDeckBtn:hover {
+    transform: translateY(-2px);
+
+    border-color: #c084fc;
+
+    box-shadow:
+        0 0 12px rgba(168, 85, 247, 0.55),
+        0 8px 25px rgba(79, 70, 229, 0.35);
+}
+
+/* Click */
+
+#importDeckBtn:active {
+    transform: translateY(0);
+
+    box-shadow:
+        0 0 8px rgba(168, 85, 247, 0.4);
+}
+
+/* =================================
+   OCULTAR IMPORTAR MAZO AL ESTUDIAR
+================================= */
+
+body.focus-mode .import-deck {
+    display: none;
+}
+
+/* =========================================
+   CÓDIGO PARA COMPARTIR
+========================================= */
+
+.share-code-container {
+    display: none;
+
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+
+    margin: 20px auto;
+
+    padding: 10px;
+
+    border: 1px solid rgba(167, 139, 250, 0.35);
+    border-radius: 14px;
+
+    background: rgba(76, 29, 149, 0.12);
+}
+
+
+/* Código */
+
+#shareCodeDisplay {
+    font-size: 22px;
+    font-weight: 800;
+    letter-spacing: 2px;
+
+    color: #e9d5ff;
+}
+
+
+/* Botón copiar */
+
+#copyShareCodeBtn {
+
+    width: auto !important;
+
+    padding: 9px 14px !important;
+
+    border: 1px solid rgba(167, 139, 250, 0.55) !important;
+
+    border-radius: 10px !important;
+
+    background: rgba(139, 92, 246, 0.22) !important;
+
+    color: #ddd6fe !important;
+
+    font-size: 14px !important;
+    font-weight: 700 !important;
+
+    cursor: pointer;
+
+    transition: 0.25s ease;
+}
+
+
+#copyShareCodeBtn:hover {
+
+    background: rgba(139, 92, 246, 0.40) !important;
+
+    border-color: #a78bfa !important;
+
+    color: white !important;
+
+    box-shadow:
+        0 0 12px rgba(139, 92, 246, 0.30);
+}
+
+
+#copyShareCodeBtn:active {
+    transform: scale(0.95);
+}
+/* =================================
+   CÓDIGO DE COMPARTIR
+================================= */
+
+.share-code-container {
+
+    display: none;
+
+    align-items: center;
+    justify-content: center;
+
+    gap: 12px;
+
+    margin: 18px auto;
+
+}
+
+
+/* Código */
+
+#shareCodeDisplay {
+
+    font-size: 22px;
+
+    font-weight: 800;
+
+    letter-spacing: 2px;
+
+    color: #e9d5ff;
+
+}
+
+
+/* Copiar */
+
+#copyShareCodeBtn {
+
+    width: auto !important;
+
+    padding: 8px 14px !important;
+
+    margin: 0 !important;
+
+    border: 1px solid #a78bfa !important;
+
+    border-radius: 10px !important;
+
+    background: rgba(139, 92, 246, 0.20) !important;
+
+    color: #ddd6fe !important;
+
+    font-size: 14px !important;
+
+    font-weight: 700 !important;
+
+    cursor: pointer;
+
+    transition: 0.25s ease;
+
+}
+
+
+#copyShareCodeBtn:hover {
+
+    background: rgba(139, 92, 246, 0.40) !important;
+
+    color: white !important;
+
+    box-shadow:
+        0 0 15px rgba(139, 92, 246, 0.35);
+
+}
