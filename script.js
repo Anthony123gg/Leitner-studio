@@ -36,7 +36,107 @@ function save() {
 
     render();
     stats();
+} 
+
+/* ==========================
+   GENERAR RESPUESTA CON IA
+========================== */
+
+async function generateAIAnswer() {
+
+    const questionInput =
+        document.getElementById("q");
+
+    const answerInput =
+        document.getElementById("a");
+
+    const q =
+        questionInput.value.trim();
+
+    if (!q) {
+        return;
+    }
+
+    answerInput.value =
+        "🤖 Generando respuesta...";
+
+    try {
+
+        const response = await fetch(
+            "https://lvznrjxi uupbconofzvz.supabase.co/functions/v1/generate-answer".replace(" ", ""),
+            {
+                method: "POST",
+
+                headers: {
+                    "Content-Type": "application/json"
+                },
+
+                body: JSON.stringify({
+                    question: q
+                })
+            }
+        );
+
+        const data =
+            await response.json();
+
+        console.log(
+            "Respuesta de Supabase:",
+            data
+        );
+
+        if (!response.ok) {
+
+            throw new Error(
+                data.error ||
+                "Error al generar la respuesta."
+            );
+        }
+
+        if (!data.answer) {
+
+            throw new Error(
+                "La IA no devolvió ninguna respuesta."
+            );
+        }
+
+        answerInput.value =
+            data.answer;
+
+    } catch (error) {
+
+        console.error(
+            "ERROR IA:",
+            error
+        );
+
+        answerInput.value = "";
+
+        showMessage(
+            "❌ Error",
+            "No se pudo generar la respuesta automáticamente.",
+            "error"
+        );
+    }
 }
+
+/* ==========================
+   GENERAR RESPUESTA AL SALIR
+   DEL CAMPO PREGUNTA
+========================== */
+
+document.getElementById("q").addEventListener(
+    "blur",
+    () => {
+
+        const q =
+            document.getElementById("q").value.trim();
+
+        if (q) {
+            generateAIAnswer();
+        }
+    }
+);
 
 
 /* ==========================
@@ -984,11 +1084,13 @@ document.getElementById(
     "q"
 ).addEventListener(
     "keydown",
-    function (event) {
+    async function (event) {
 
         if (event.key === "Enter") {
 
             event.preventDefault();
+
+            await generateAIAnswer();
 
             document.getElementById(
                 "a"
@@ -2357,9 +2459,7 @@ async function shareDeck() {
     }
 }
 
-/* ==========================
-   IMPORTAR MAZO CON SUPABASE
-========================== */
+
 
 /* ==========================
    IMPORTAR MAZO CON SUPABASE
