@@ -57,8 +57,10 @@ async function generateAIAnswer() {
         return;
     }
 
-    answerInput.value =
-        "🤖 Generando respuesta...";
+    answerInput.value = "";
+answerInput.placeholder = "🤖 Generando respuesta...";
+
+document.querySelector('button[onclick="addCard()"]').disabled = true;
 
     try {
 
@@ -100,8 +102,11 @@ async function generateAIAnswer() {
             );
         }
 
-        answerInput.value =
-            data.answer;
+        answerInput.value = 
+    data.answer;
+
+answerInput.placeholder = "💡 Respuesta";
+            document.querySelector('button[onclick="addCard()"]').disabled = false;
 
     } catch (error) {
 
@@ -111,6 +116,7 @@ async function generateAIAnswer() {
         );
 
         answerInput.value = "";
+        document.querySelector('button[onclick="addCard()"]').disabled = false;
 
         showMessage(
             "❌ Error",
