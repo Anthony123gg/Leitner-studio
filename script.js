@@ -9,9 +9,12 @@ let cards = JSON.parse(
 let current = -1;
 let isAnimating = false;
 let studyList = [];
+let optionsLocked = false;
+let currentOptions = [];
 let confirmAction = null;
 let studyTotalCards = 0;
 let studyCurrentPosition = 0;
+
 
 
 /* ==========================
@@ -628,31 +631,252 @@ function startStudy() {
 
 
 /* ==========================
+   GENERAR OPCIONES CON IA
+========================== */
+
+async function generateAnswerOptions() {
+
+    const optionsContainer =
+        document.getElementById("answerOptions");
+
+    const card = cards[current];
+
+    if (!card) return;
+
+    optionsLocked = true;
+
+    optionsContainer.style.display = "grid";
+
+    optionsContainer.innerHTML = `
+        <div class="options-loading">
+            🤖 Generando alternativas...
+        </div>
+    `;
+
+    try {
+
+        const response = await fetch(
+            "https://lvznrjxiuupbconofzvz.supabase.co/functions/v1/generate-answer",
+            {
+                method: "POST",
+
+                headers: {
+                    "Content-Type": "application/json"
+                },
+
+                body: JSON.stringify({
+                    question: card.q,
+                    correctAnswer: card.a,
+                    mode: "options"
+                })
+            }
+        );
+
+        const data = await response.json();
+
+        if (!response.ok) {
+            throw new Error(
+                data.error || "No se pudieron generar las opciones."
+            );
+        }
+
+        if (
+            !Array.isArray(data.options) ||
+            data.options.length !== 4 ||
+            !data.options.every(
+                option =>
+                    typeof option === "string" &&
+                    option.trim() !== ""
+            )
+        ) {
+            throw new Error("La IA no devolvió cuatro opciones válidas.");
+        }
+
+        currentOptions = data.options;
+
+        renderAnswerOptions();
+
+        optionsLocked = false;
+
+    } catch (error) {
+
+        console.error("Error generando opciones:", error);
+
+        optionsContainer.innerHTML = `
+            <div class="options-error">
+                <p>❌ No se pudieron generar las opciones.</p>
+
+                <button
+                    type="button"
+                    onclick="generateAnswerOptions()"
+                >
+                    🔄 Intentar nuevamente
+                </button>
+            </div>
+        `;
+
+        optionsLocked = true;
+    }
+}
+
+
+/* ==========================
+   MOSTRAR LAS CUATRO OPCIONES
+========================== */
+
+function renderAnswerOptions() {
+
+    const container =
+        document.getElementById("answerOptions");
+
+    container.innerHTML = "";
+
+    const letters = ["A", "B", "C", "D"];
+
+    currentOptions.forEach((option, index) => {
+
+        const button = document.createElement("button");
+
+        button.type = "button";
+
+        button.className = "answer-option";
+
+        const letter = document.createElement("span");
+
+        letter.className = "option-letter";
+
+        letter.textContent = letters[index];
+
+        const text = document.createElement("span");
+
+        text.className = "option-text";
+
+        text.textContent = option;
+
+        button.appendChild(letter);
+
+        button.appendChild(text);
+
+        button.addEventListener("click", () => {
+            selectAnswer(option, button);
+        });
+
+        container.appendChild(button);
+
+    });
+}
+
+
+
+/* ==========================
+   SELECCIONAR RESPUESTA
+========================== */
+
+
+function selectAnswer(selectedOption, selectedButton) {
+
+    if (optionsLocked || current < 0) {
+        return;
+    }
+
+    optionsLocked = true;
+
+    const correctAnswer = cards[current].a;
+
+    const isCorrect =
+        selectedOption.trim().toLowerCase() ===
+        correctAnswer.trim().toLowerCase();
+
+    const buttons =
+        document.querySelectorAll(".answer-option");
+
+    const feedback =
+        document.getElementById("answerFeedback");
+
+    buttons.forEach(button => {
+
+        button.disabled = true;
+
+        const optionText =
+            button.querySelector(".option-text").textContent;
+
+        if (
+            optionText.trim().toLowerCase() ===
+            correctAnswer.trim().toLowerCase()
+        ) {
+            button.classList.add("option-correct");
+        }
+
+    });
+
+    if (isCorrect) {
+
+        selectedButton.classList.add("option-correct");
+
+        feedback.textContent = "🎉 ¡Excelente! Respuesta correcta.";
+
+        feedback.className =
+            "answer-feedback correct-feedback";
+
+    } else {
+
+        selectedButton.classList.add("option-wrong");
+
+        feedback.textContent =
+            "❌ Respuesta incorrecta. La correcta era: " +
+            correctAnswer;
+
+        feedback.className =
+            "answer-feedback wrong-feedback";
+
+    }
+
+    setTimeout(() => {
+
+        feedback.style.display = "none";
+
+        if (isCorrect) {
+            correct();
+        } else {
+            wrong();
+        }
+
+    }, 1800);
+
+}
+
+
+
+
+
+
+/* ==========================
    MOSTRAR SIGUIENTE TARJETA
 ========================== */
 
 function nextCard() {
 
     const finish =
-        document.getElementById(
-            "finish"
-        );
+        document.getElementById("finish");
 
     const finishButtons =
-        document.getElementById(
-            "finishButtons"
-        );
+        document.getElementById("finishButtons");
 
     const studyButtons =
-        document.getElementById(
-            "studyButtons"
-        );
+        document.getElementById("studyButtons");
 
-    finish.style.display =
-        "none";
+    const optionsContainer =
+        document.getElementById("answerOptions");
 
-    finishButtons.style.display =
-        "none";
+    finish.style.display = "none";
+
+    finishButtons.style.display = "none";
+
+    document.getElementById("showAnswerBtn").style.display = "none";
+
+    document.getElementById("correctBtn").style.display = "none";
+
+    document.getElementById("wrongBtn").style.display = "none";
 
     if (studyList.length === 0) {
 
@@ -661,49 +885,40 @@ function nextCard() {
         return;
     }
 
-    const card =
-        studyList.shift();
+    const card = studyList.shift();
 
-    current =
-        card.index;
+    current = card.index;
 
     studyCurrentPosition =
-        studyTotalCards -
-        studyList.length;
+        studyTotalCards - studyList.length;
 
-    question.textContent =
-        card.q;
+    question.textContent = card.q;
 
-    answer.textContent =
-        card.a;
+    answer.textContent = "";
 
-    answer.style.display =
-        "none";
+    answer.style.display = "none";
 
-    study.style.display =
-        "block";
+    study.style.display = "block";
 
-    studyButtons.style.display =
-        "flex";
+    studyButtons.style.display = "flex";
 
-    document.getElementById(
-        "showAnswerBtn"
-    ).style.display = "block";
+    optionsContainer.style.display = "grid";
 
-    document.getElementById(
-        "correctBtn"
-    ).style.display = "none";
+    optionsContainer.innerHTML = "";
+    const feedback =
+    document.getElementById("answerFeedback");
 
-    document.getElementById(
-        "wrongBtn"
-    ).style.display = "none";
+feedback.textContent = "";
+feedback.className = "answer-feedback";
+feedback.style.display = "none";
 
-    document.getElementById(
-        "studyProgress"
-    ).style.display = "block";
+    optionsLocked = true;
 
     updateStudyProgress();
+
+    generateAnswerOptions();
 }
+
 
 
 /* ==========================
@@ -831,13 +1046,12 @@ function correct() {
 
 function wrong() {
 
-    if (
-        current < 0 ||
-        !cards[current] ||
-        answer.style.display !== "block"
-    ) {
-        return;
-    }
+   if (
+    current < 0 ||
+    !cards[current]
+) {
+    return;
+}
 
     animateCard(
         "wrong",
