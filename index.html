@@ -299,19 +299,33 @@ content="summary_large_image">
 
         <!-- Botones para responder -->
 
-        <div
-            id="studyButtons"
-            class="small study-buttons"
-        >
+        
+<div id="studyButtons">
 
-            <button
-                id="showAnswerBtn"
-                class="show-answer-btn"
-                type="button"
-                onclick="showAnswer()"
-            >
-                👁 Mostrar respuesta
-            </button>
+    <!-- NUEVAS OPCIONES -->
+    <div
+    id="answerOptions"
+    class="answer-options"
+    style="display: none;"
+></div>
+
+<div
+    id="answerFeedback"
+    class="answer-feedback"
+></div>
+
+    <!-- BOTÓN ANTIGUO: SE CONSERVA TEMPORALMENTE -->
+    <button
+        id="showAnswerBtn"
+        onclick="showAnswer()"
+    >
+        👁 Mostrar respuesta
+    </button>
+
+  
+
+
+
 
             <button
                 id="correctBtn"
@@ -537,4 +551,3 @@ content="summary_large_image">
 </body>
 </html>
 
-</html>
