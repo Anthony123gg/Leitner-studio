@@ -5022,3 +5022,46 @@ body.focus-mode .import-deck {
     }
 }
 
+/* =================================
+   COLORES INDIVIDUALES DE OPCIONES
+================================= */
+
+.answer-option:nth-child(1) {
+    background: rgba(59, 130, 246, 0.20);
+    border-color: rgba(96, 165, 250, 0.40);
+}
+
+.answer-option:nth-child(2) {
+    background: rgba(168, 85, 247, 0.20);
+    border-color: rgba(192, 132, 252, 0.40);
+}
+
+.answer-option:nth-child(3) {
+    background: rgba(20, 184, 166, 0.20);
+    border-color: rgba(45, 212, 191, 0.40);
+}
+
+.answer-option:nth-child(4) {
+    background: rgba(245, 158, 11, 0.20);
+    border-color: rgba(251, 191, 36, 0.40);
+}
+
+/* COLORES DE LAS LETRAS */
+
+.answer-option:nth-child(1) .option-letter {
+    background: rgba(59, 130, 246, 0.30);
+}
+
+.answer-option:nth-child(2) .option-letter {
+    background: rgba(168, 85, 247, 0.30);
+}
+
+.answer-option:nth-child(3) .option-letter {
+    background: rgba(20, 184, 166, 0.30);
+}
+
+.answer-option:nth-child(4) .option-letter {
+    background: rgba(245, 158, 11, 0.30);
+}
+
+
