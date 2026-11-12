@@ -773,6 +773,7 @@ function renderAnswerOptions() {
 ========================== */
 
 
+
 function selectAnswer(selectedOption, selectedButton) {
 
     if (optionsLocked || current < 0) {
@@ -793,27 +794,19 @@ function selectAnswer(selectedOption, selectedButton) {
     const feedback =
         document.getElementById("answerFeedback");
 
+    // Desactivar todas las opciones
     buttons.forEach(button => {
-
         button.disabled = true;
-
-        const optionText =
-            button.querySelector(".option-text").textContent;
-
-        if (
-            optionText.trim().toLowerCase() ===
-            correctAnswer.trim().toLowerCase()
-        ) {
-            button.classList.add("option-correct");
-        }
-
     });
+
+    // ILUMINAR ÚNICAMENTE LA OPCIÓN SELECCIONADA
 
     if (isCorrect) {
 
         selectedButton.classList.add("option-correct");
 
-        feedback.textContent = "🎉 ¡Excelente! Respuesta correcta.";
+        feedback.textContent =
+            "🎉 ¡Excelente! Respuesta correcta.";
 
         feedback.className =
             "answer-feedback correct-feedback";
@@ -823,13 +816,14 @@ function selectAnswer(selectedOption, selectedButton) {
         selectedButton.classList.add("option-wrong");
 
         feedback.textContent =
-            "❌ Respuesta incorrecta. La correcta era: " +
-            correctAnswer;
+            "❌ Respuesta incorrecta. ¡Sigue intentando!";
 
         feedback.className =
             "answer-feedback wrong-feedback";
 
     }
+
+    // Continuar después de mostrar el resultado
 
     setTimeout(() => {
 
@@ -844,6 +838,7 @@ function selectAnswer(selectedOption, selectedButton) {
     }, 1800);
 
 }
+
 
 
 
