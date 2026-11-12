@@ -5065,3 +5065,31 @@ body.focus-mode .import-deck {
 }
 
 
+/* =================================
+   ILUMINACIÓN DE RESPUESTAS
+================================= */
+
+/* RESPUESTA CORRECTA: VERDE */
+
+.answer-options .answer-option.option-correct {
+    border: 2px solid #22c55e !important;
+
+    box-shadow:
+        0 0 8px rgba(34, 197, 94, 0.65),
+        0 0 20px rgba(34, 197, 94, 0.35),
+        inset 0 0 8px rgba(34, 197, 94, 0.12);
+}
+
+/* RESPUESTA INCORRECTA: ROJO */
+
+.answer-options .answer-option.option-wrong {
+    border: 2px solid #ef4444 !important;
+
+    box-shadow:
+        0 0 8px rgba(239, 68, 68, 0.65),
+        0 0 20px rgba(239, 68, 68, 0.35),
+        inset 0 0 8px rgba(239, 68, 68, 0.12);
+}
+
+
+
